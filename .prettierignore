@@ -1,0 +1,13 @@
+/node_modules
+/build
+/dist
+/.gitignore
+/.husky
+/.prettierignore
+/yarn.lock
+
+*.png
+*.svg
+*.jpg
+*.ico
+*.txt
