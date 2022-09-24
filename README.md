@@ -75,10 +75,10 @@ const Component: React.FC = () => {
 
 function that creates a socket instance and return the hooks.
 
-| Property     | Type                                       | Default | Description                      | Version |
-| ------------ | ------------------------------------------ | ------- | -------------------------------- | ------- |
-| arg0:uri     | `string?`                                  | `''`    | socket uri (`io(uri)`)           | 0.1     |
-| arg1:options | `Partial<ManagerOptions & SocketOptions>?` | `{}`    | socket options (`io(, options)`) | 0.1     |
+| Property     | Type                                       | Default     | Description                      | Version |
+| ------------ | ------------------------------------------ | ----------- | -------------------------------- | ------- |
+| arg0:uri     | `string?`                                  | `undefined` | socket uri (`io(uri)`)           | 0.1     |
+| arg1:options | `Partial<ManagerOptions & SocketOptions>?` | `undefined` | socket options (`io(, options)`) | 0.1     |
 
 return: `void`
 
@@ -88,11 +88,11 @@ return: `void`
 
 hook to init your socket in the app.
 
-| Property     | Type                                       | Default | Description                      | Version |
-| ------------ | ------------------------------------------ | ------- | -------------------------------- | ------- |
-| arg0:uri     | `string?`                                  | `''`    | socket uri (`io(uri)`)           | 0.1     |
-| arg1:options | `Partial<ManagerOptions & SocketOptions>?` | `{}`    | socket options (`io(, options)`) | 0.1     |
-| arg2:start   | `boolean?`                                 | `true`  | start initializing the socket    | 0.1     |
+| Property     | Type                                       | Default     | Description                      | Version |
+| ------------ | ------------------------------------------ | ----------- | -------------------------------- | ------- |
+| arg0:uri     | `string?`                                  | `undefined` | socket uri (`io(uri)`)           | 0.1     |
+| arg1:options | `Partial<ManagerOptions & SocketOptions>?` | `undefined` | socket options (`io(, options)`) | 0.1     |
+| arg2:start   | `boolean?`                                 | `true`      | start initializing the socket    | 0.1     |
 
 return: `void`
 
@@ -177,4 +177,4 @@ return: `void`
 
 - memoize the following arguments (not memoizing them may cause some unexpected behavior):
   - the options object passed to `useInitSocket`.
-  - the listener passed to `useOn` and `useOnce`. 
+  - the listener passed to `useOn` and `useOnce`.
