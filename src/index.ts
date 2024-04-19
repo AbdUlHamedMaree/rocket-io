@@ -1,62 +1,86 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import EventEmitter from 'events';
-import { useCallback, useEffect, useRef, useState } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { EventEmitter } from 'eventemitter3';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
-import {} from 'socket.io-client/build/esm/index';
-import type { DisconnectDescription } from 'socket.io-client/build/esm/socket';
-import { isDefined, isNil } from './checks';
 
-export type SocketReservedEvents = {
-  connect: () => void;
-  connect_error: (err: Error) => void;
-  disconnect: (
-    reason: Socket.DisconnectReason,
-    description?: DisconnectDescription
-  ) => void;
-};
+import { isDefined, isNil } from './utils/checks';
+import type { EventsMap } from './types/events-map';
+import { getSocket } from './utils/get-socket';
+import type { CreateSocketHooksResult } from './types/create-socket-hooks-result';
+import type { SocketReservedEvents } from './types/socket-reserved-events';
 
-type EventsMap = Record<string, (...args: any[]) => void>;
-
-export const createSocketHooks = <
+export function createSocketHooks<
   TListenEvents extends EventsMap = Record<string, (...args: any[]) => void>,
-  TEmitEvents extends EventsMap = TListenEvents
+  TEmitEvents extends EventsMap = TListenEvents,
 >(
-  baseUri?: string,
+  socket: Socket<TListenEvents, TEmitEvents>
+): CreateSocketHooksResult<TListenEvents, TEmitEvents>;
+
+export function createSocketHooks<
+  TListenEvents extends EventsMap = Record<string, (...args: any[]) => void>,
+  TEmitEvents extends EventsMap = TListenEvents,
+>(
+  options: Partial<ManagerOptions & SocketOptions>
+): CreateSocketHooksResult<TListenEvents, TEmitEvents>;
+
+export function createSocketHooks<
+  TListenEvents extends EventsMap = Record<string, (...args: any[]) => void>,
+  TEmitEvents extends EventsMap = TListenEvents,
+>(
+  uri: string,
+  options?: Partial<ManagerOptions & SocketOptions>
+): CreateSocketHooksResult<TListenEvents, TEmitEvents>;
+
+export function createSocketHooks<
+  TListenEvents extends EventsMap = Record<string, (...args: any[]) => void>,
+  TEmitEvents extends EventsMap = TListenEvents,
+>(): CreateSocketHooksResult<TListenEvents, TEmitEvents>;
+
+export function createSocketHooks<
+  TListenEvents extends EventsMap = Record<string, (...args: any[]) => void>,
+  TEmitEvents extends EventsMap = TListenEvents,
+>(
+  uriOrSocket?: string | Socket | Partial<ManagerOptions & SocketOptions>,
   baseOptions?: Partial<ManagerOptions & SocketOptions>
-) => {
+) {
   const eventEmitter = new EventEmitter();
-  let socketInstance: Socket<TListenEvents, TEmitEvents> | undefined;
+
+  let socketInstance = getSocket<TListenEvents, TEmitEvents>(uriOrSocket, baseOptions);
 
   const useInitSocket = (
     uri?: string,
     options?: Partial<ManagerOptions & SocketOptions>,
     start = true
   ) => {
-    useEffect(() => {
+    useLayoutEffect(() => {
       if (!start) return;
-      const finalUri = uri ?? baseUri;
-      if (isNil(finalUri))
+      if (isDefined(socketInstance)) return;
+
+      if (isNil(uri))
         throw new Error('provide a uri in either createSocketHooks or in useInitSocket');
 
-      const s = io(finalUri, { ...baseOptions, ...options });
-      socketInstance = s;
-      eventEmitter.emit('socket-done', s);
+      const socket = io(uri, options);
+      socketInstance = socket;
+      eventEmitter.emit('socket-done', socket);
+    }, [start]);
+  };
+
+  const useDisconnectOnUnmount = () => {
+    useEffect(() => {
       return () => {
-        socketInstance = undefined;
-        eventEmitter.emit('socket-done', undefined);
-        s.disconnect();
+        socketInstance?.disconnect();
       };
-    }, [options, uri, start]);
+    }, []);
   };
 
   const useSocket = () => {
     const [socketState, setSocketState] = useState(socketInstance);
+
     useEffect(() => {
       if (isDefined(socketState)) return;
       if (isDefined(socketInstance)) return void setSocketState(socketInstance);
 
       eventEmitter.on('socket-done', setSocketState);
+
       return () => {
         eventEmitter.off('socket-done', setSocketState);
       };
@@ -70,9 +94,12 @@ export const createSocketHooks = <
     listener: (TListenEvents & SocketReservedEvents)[TKey]
   ) => {
     const socket = useSocket();
+
     useEffect(() => {
       if (isNil(socket)) return;
+
       socket.on(ev as any, listener);
+
       return () => {
         socket.off(ev as any, listener);
       };
@@ -85,9 +112,12 @@ export const createSocketHooks = <
     listener: (TListenEvents & SocketReservedEvents)[TKey]
   ) => {
     const socket = useSocket();
+
     useEffect(() => {
       if (isNil(socket)) return;
+
       socket.once(ev as any, listener);
+
       return () => {
         socket.off(ev as any, listener);
       };
@@ -97,14 +127,17 @@ export const createSocketHooks = <
 
   const useEmit = () => {
     const socket = useSocket();
+
     const queue = useRef<
       [keyof TEmitEvents, Parameters<TEmitEvents[keyof TEmitEvents]>][]
     >([]);
+
     useEffect(() => {
       if (isNil(socket) || queue.current.length === 0) return;
       queue.current.forEach(([ev, ...args]) => socket.emit(ev as any, ...(args as any)));
       queue.current = [];
     }, [socket]);
+
     return useCallback(
       <TKey extends keyof TEmitEvents>(
         ev: TKey,
@@ -124,20 +157,22 @@ export const createSocketHooks = <
     ...args: Parameters<TEmitEvents[keyof TEmitEvents]>
   ) => {
     const emit = useEmit();
+
     useEffect(() => {
       emit(ev, ...args);
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [deps]);
+    }, deps);
   };
 
   const useImmediateEmit = <TKey extends keyof TEmitEvents>(
     ev: TKey,
     ...args: Parameters<TEmitEvents[keyof TEmitEvents]>
   ) => useEmitEffect([], ev, ...args);
+
   return {
     socket: socketInstance,
-    eventEmitter,
     useInitSocket,
+    useDisconnectOnUnmount,
     useSocket,
     useOn,
     useOnce,
@@ -145,4 +180,4 @@ export const createSocketHooks = <
     useImmediateEmit,
     useEmitEffect,
   };
-};
+}
