@@ -1,6 +1,6 @@
 {
   "name": "react-socket.io",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": false,
   "description": "Wrapper for socket.io-client in ReactJs",
   "keywords": [
@@ -39,11 +39,11 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "exports":{
-    ".":{
+  "exports": {
+    ".": {
       "default": "./dist/index.js",
       "node": "./dist/index.js",
-      "require":"./dist/index.js",
+      "require": "./dist/index.js",
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     }
