@@ -6,16 +6,16 @@ Wrapper for socket.io-client in ReactJs - works for React Native.
 
 ```sh
 # npm
-npm i rocket-io
+npm i socket.io-client rocket-io
 
 # yarn
-yarn add rocket-io
+yarn add socket.io-client rocket-io
 
 # bun
-bun install rocket-io
+bun install socket.io-client rocket-io
 
 # pnpm
-pnpm i rocket-io
+pnpm i socket.io-client rocket-io
 ```
 
 # Usage
