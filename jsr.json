@@ -1,0 +1,5 @@
+{
+  "name": "@mrii/rocket-io",
+  "version": "0.1.3",
+  "exports": "./src/index.ts"
+}
