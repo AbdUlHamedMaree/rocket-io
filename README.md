@@ -2,6 +2,8 @@
 
 Wrapper for socket.io-client in ReactJs - works for React Native.
 
+This package is using [`lbundle`](https://github.com/AbdUlHamedMaree/lbundle) as bundler ✨
+
 # Install
 
 ```sh
@@ -349,9 +351,9 @@ hook to init your socket in the app in case of Lazy Initialization.
 
 | Property     | Type                                       | Default     | Description                      | Version |
 | ------------ | ------------------------------------------ | ----------- | -------------------------------- | ------- |
-| arg0:uri     | `string`                                   | `undefined` | socket uri (`io(uri)`)           | 0.0.1     |
-| arg1:options | `Partial<ManagerOptions & SocketOptions>?` | `undefined` | socket options (`io(, options)`) | 0.0.1     |
-| arg2:start   | `boolean?`                                 | `true`      | start initializing the socket    | 0.0.1     |
+| arg0:uri     | `string`                                   | `undefined` | socket uri (`io(uri)`)           | 0.0.1   |
+| arg1:options | `Partial<ManagerOptions & SocketOptions>?` | `undefined` | socket options (`io(, options)`) | 0.0.1   |
+| arg2:start   | `boolean?`                                 | `true`      | start initializing the socket    | 0.0.1   |
 
 return: `void`
 
@@ -385,8 +387,8 @@ hook to listen on every event emission.
 
 | Property      | Type       | Default     | Description                                                                      | Version |
 | ------------- | ---------- | ----------- | -------------------------------------------------------------------------------- | ------- |
-| arg0:key      | `string`   | `undefined` | event key to listen on (`socket.on(key)`)                                        | 0.0.1     |
-| arg1:listener | `Function` | `undefined` | listener that will will be called when the event fires (`socket.on(, listener)`) | 0.0.1     |
+| arg0:key      | `string`   | `undefined` | event key to listen on (`socket.on(key)`)                                        | 0.0.1   |
+| arg1:listener | `Function` | `undefined` | listener that will will be called when the event fires (`socket.on(, listener)`) | 0.0.1   |
 
 return: `void`
 
@@ -398,8 +400,8 @@ hook to listen once on event emission.
 
 | Property      | Type       | Default     | Description                                                                        | Version |
 | ------------- | ---------- | ----------- | ---------------------------------------------------------------------------------- | ------- |
-| arg0:key      | `string`   | `undefined` | event key to listen on (`socket.once(key)`)                                        | 0.0.1     |
-| arg1:listener | `Function` | `undefined` | listener that will will be called when the event fires (`socket.once(, listener)`) | 0.0.1     |
+| arg0:key      | `string`   | `undefined` | event key to listen on (`socket.once(key)`)                                        | 0.0.1   |
+| arg1:listener | `Function` | `undefined` | listener that will will be called when the event fires (`socket.once(, listener)`) | 0.0.1   |
 
 return: `void`
 
@@ -423,8 +425,8 @@ hook to emit an event once.
 
 | Property | Type        | Default     | Description                                             | Version |
 | -------- | ----------- | ----------- | ------------------------------------------------------- | ------- |
-| arg0:key | `string`    | `undefined` | event key to emit (`socket.emit(key)`)                  | 0.0.1     |
-| ...args  | `unknown[]` | `undefined` | extra arguments to emit them (`socket.emit(, ...args)`) | 0.0.1     |
+| arg0:key | `string`    | `undefined` | event key to emit (`socket.emit(key)`)                  | 0.0.1   |
+| ...args  | `unknown[]` | `undefined` | extra arguments to emit them (`socket.emit(, ...args)`) | 0.0.1   |
 
 return: `void`
 
@@ -436,9 +438,9 @@ hook to emit an event on mount and once the dependency array changes.
 
 | Property  | Type        | Default     | Description                                              | Version |
 | --------- | ----------- | ----------- | -------------------------------------------------------- | ------- |
-| arg0:deps | `unknown[]` | `undefined` | dependency array to listen on (like `useEffect(, deps)`) | 0.0.1     |
-| arg1:key  | `string`    | `undefined` | event key to emit (`socket.emit(key)`)                   | 0.0.1     |
-| ...args   | `unknown[]` | `undefined` | extra arguments to emit them (`socket.emit(, ...args)`)  | 0.0.1     |
+| arg0:deps | `unknown[]` | `undefined` | dependency array to listen on (like `useEffect(, deps)`) | 0.0.1   |
+| arg1:key  | `string`    | `undefined` | event key to emit (`socket.emit(key)`)                   | 0.0.1   |
+| ...args   | `unknown[]` | `undefined` | extra arguments to emit them (`socket.emit(, ...args)`)  | 0.0.1   |
 
 return: `void`
 
