@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { EventEmitter } from 'eventemitter3';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
@@ -40,9 +42,12 @@ export function createSocketHooks<
   TListenEvents extends EventsMap = Record<string, (...args: any[]) => void>,
   TEmitEvents extends EventsMap = TListenEvents,
 >(
-  uriOrSocket?: string | Socket | Partial<ManagerOptions & SocketOptions>,
+  uriOrSocket?:
+    | string
+    | Socket<TListenEvents, TEmitEvents>
+    | Partial<ManagerOptions & SocketOptions>,
   baseOptions?: Partial<ManagerOptions & SocketOptions>
-) {
+): CreateSocketHooksResult<TListenEvents, TEmitEvents> {
   const eventEmitter = new EventEmitter();
 
   let socketInstance = getSocket<TListenEvents, TEmitEvents>(uriOrSocket, baseOptions);
@@ -63,6 +68,7 @@ export function createSocketHooks<
 
       socketInstance = socket;
       eventEmitter.emit('socket-done', socket);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [start]);
   };
 

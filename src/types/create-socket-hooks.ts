@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
 import type { EventsMap } from './events-map';
 import type { CreateSocketHooksResult } from './create-socket-hooks-result';

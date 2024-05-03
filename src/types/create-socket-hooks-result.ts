@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type { ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
 import type { EventsMap } from './events-map';
 import type { SocketReservedEvents } from './socket-reserved-events';
@@ -54,7 +56,10 @@ export type CreateSocketHooksResult<
    * hook to get the socket emit fn, this emit is optimized to hold emission until the socket is ready
    * @returns optimized socket emit fn
    */
-  useEmit: () => Socket<TListenEvents, TEmitEvents>['emit'];
+  useEmit: () => <TKey extends keyof TEmitEvents>(
+    ev: TKey,
+    ...args: Parameters<TEmitEvents[keyof TEmitEvents]>
+  ) => void;
 
   /**
    * hook to emit socket event immediately
