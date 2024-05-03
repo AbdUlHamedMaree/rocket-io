@@ -1,5 +1,12 @@
 import type { Socket } from 'socket.io-client';
-import type { DisconnectDescription } from 'socket.io-client/build/esm/socket';
+
+// not exported from socket.io-client
+export type DisconnectDescription =
+  | Error
+  | {
+      description: string;
+      context?: unknown;
+    };
 
 export type SocketReservedEvents = {
   connect: () => void;
