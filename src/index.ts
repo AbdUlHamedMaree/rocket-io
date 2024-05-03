@@ -1,6 +1,7 @@
 import { EventEmitter } from 'eventemitter3';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
+import type { ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
+import { io } from 'socket.io-client';
 
 import { isDefined, isNil } from './utils/checks';
 import type { EventsMap } from './types/events-map';
@@ -59,6 +60,7 @@ export function createSocketHooks<
         throw new Error('provide a uri in either createSocketHooks or in useInitSocket');
 
       const socket = io(uri, options);
+
       socketInstance = socket;
       eventEmitter.emit('socket-done', socket);
     }, [start]);
@@ -86,6 +88,7 @@ export function createSocketHooks<
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     return socketState;
   };
 
@@ -134,6 +137,7 @@ export function createSocketHooks<
 
     useEffect(() => {
       if (isNil(socket) || queue.current.length === 0) return;
+
       queue.current.forEach(([ev, ...args]) => socket.emit(ev as any, ...(args as any)));
       queue.current = [];
     }, [socket]);

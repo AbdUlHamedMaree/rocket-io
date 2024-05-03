@@ -1,4 +1,5 @@
-import { io, ManagerOptions, Socket, SocketOptions } from 'socket.io-client';
+import type { ManagerOptions, SocketOptions } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 import type { EventsMap } from '../types/events-map';
 
 export const getSocket = <
