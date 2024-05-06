@@ -6,6 +6,8 @@ This package is using [`lbundle`](https://github.com/AbdUlHamedMaree/lbundle) as
 
 # Install
 
+### NPM registry
+
 ```sh
 # npm
 npm i socket.io-client rocket-io
@@ -18,6 +20,16 @@ bun install socket.io-client rocket-io
 
 # pnpm
 pnpm i socket.io-client rocket-io
+```
+
+### JSR registry
+
+```bash
+# deno
+deno add @mrii/rocket-io
+
+# jsr
+npx jsr add @mrii/rocket-io
 ```
 
 # Usage
