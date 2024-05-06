@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env:
+  HUSKY: 0
+
 jobs:
   release:
     name: Release
@@ -13,6 +16,8 @@ jobs:
     permissions:
       packages: write
       contents: write
+      issues: write
+      pull-requests: write
 
       # for jsr publish
       id-token: write
@@ -36,17 +41,14 @@ jobs:
       - name: Install dependencies
         run: bun i --frozen-lockfile
 
-      - name: Install `semantic-release` extra plugins
-        run: bun i -D @semantic-release/changelog @semantic-release/git
-
       - name: Test
-        run: npm run test
+        run: bun run test
 
       - name: Build
-        run: npm run build
+        run: bun run build
 
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+        run: bunx semantic-release

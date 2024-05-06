@@ -1,5 +1,24 @@
 # rocket-io
 
+<a href="https://github.com/AbdUlHamedMaree/rocket-io/actions/workflows/release.yml">
+  <img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/AbdUlHamedMaree/rocket-io/release.yml?logo=github">
+</a>
+<a href="https://www.npmjs.com/package/rocket-io">
+  <img alt="NPM Version" src="https://img.shields.io/npm/v/rocket-io?logo=npm">
+</a>
+<a href="https://www.npmjs.com/package/rocket-io">
+  <img alt="NPM Downloads" src="https://img.shields.io/npm/dw/rocket-io?logo=npm">
+</a>
+<a href="https://www.npmjs.com/package/rocket-io">
+  <img alt="NPM License" src="https://img.shields.io/npm/l/rocket-io">
+</a>
+<a href="https://jsr.io/@mrii/rocket-io">
+  <img alt="JSR Version" src="https://img.shields.io/jsr/v/%40mrii/rocket-io?logo=jsr">
+</a>
+<a href="https://github.com/AbdUlHamedMaree/rocket-io">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AbdUlHamedMaree/rocket-io">
+</a>
+
 Wrapper for socket.io-client in ReactJs - works for React Native.
 
 This package is using [`lbundle`](https://github.com/AbdUlHamedMaree/lbundle) as bundler ✨
