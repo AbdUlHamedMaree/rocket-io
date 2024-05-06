@@ -1,6 +1,6 @@
 {
   "name": "rocket-io",
-  "version": "0.0.0-semantic-release",
+  "version": "1.0.1",
   "private": false,
   "description": "Wrapper for socket.io-client in ReactJs - works for React Native",
   "keywords": [
