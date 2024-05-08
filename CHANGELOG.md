@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/AbdUlHamedMaree/rocket-io/compare/v1.0.1...v1.0.2) (2024-05-08)
+
+
+### Bug Fixes
+
+* **package.json:** make default last ([aedd571](https://github.com/AbdUlHamedMaree/rocket-io/commit/aedd5711647fd23174ed1d5bda1f7c3c45795c00))
+
 ## [1.0.1](https://github.com/AbdUlHamedMaree/rocket-io/compare/v1.0.0...v1.0.1) (2024-05-06)
 
 
