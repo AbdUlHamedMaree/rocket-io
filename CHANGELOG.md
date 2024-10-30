@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/AbdUlHamedMaree/rocket-io/compare/v1.0.2...v1.1.0) (2024-10-30)
+
+
+### Features
+
+* internal handling for events callbacks, no need to memoize again ([2f6a82d](https://github.com/AbdUlHamedMaree/rocket-io/commit/2f6a82d1c630f9e9d910538141e41e02a89a5600))
+
 ## [1.0.2](https://github.com/AbdUlHamedMaree/rocket-io/compare/v1.0.1...v1.0.2) (2024-05-08)
 
 
