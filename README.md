@@ -274,7 +274,7 @@ export const Component: React.FC = () => {
   useImmediateEmit('event-2', 'event-2 fired immediately');
 
   // emit event when dependencies array changes - similar to `useEffect(, deps)`
-  useImmediateEmit([message], 'event-3', 'event-3 fired with new message: ' + message);
+  useEmitEffect([message], 'event-3', 'event-3 fired with new message: ' + message);
 
   // get emit function
   const emit = useEmit();
