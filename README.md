@@ -138,12 +138,9 @@ const App: React.FC = () => {
 export const Component: React.FC = () => {
   /* ... */
 
-  useOn(
-    'event',
-    useCallback(data => {
-      console.log('[event] fired with: ', data);
-    }, [])
-  );
+  useOn('event', data => {
+    console.log('[event] fired with: ', data);
+  });
 
   useImmediateEmit('event-2', 'event-2 fired immediately');
 
@@ -187,9 +184,9 @@ export const Component: React.FC = () => {
     'message',
 
     /* data type is provided! */
-    useCallback(data => {
+    data => {
       console.log('[message] fired with: ', data);
-    }, [])
+    }
   );
 
   useImmediateEmit(
@@ -255,20 +252,14 @@ export const Component: React.FC = () => {
   /* ... */
 
   // listen to event
-  useOn(
-    'event',
-    useCallback(data => {
-      console.log('[event] fired with: ', data);
-    }, [])
-  );
+  useOn('event', data => {
+    console.log('[event] fired with: ', data);
+  });
 
   // listen to event once
-  useOn(
-    'ready',
-    useCallback(() => {
-      console.log('[ready] event fired');
-    }, [])
-  );
+  useOn('ready', () => {
+    console.log('[ready] event fired');
+  });
 
   // emit event when `Component` mounts
   useImmediateEmit('event-2', 'event-2 fired immediately');
@@ -481,5 +472,6 @@ return: `void`
 
 - `useInitSocket` will not reinitialize the socket in case it's already initialized, utilize the third argument `ready` to indicate when you have all of the required properties to start initializing.
 
-- memoize the following arguments (not memoizing them may cause some unexpected behavior):
-  - the listener passed to `useOn` and `useOnce`.
+- no need to use `useCallback` with `useOn(, cb)` or `useOnce(, cb)` because it's handled internally.
+
+- changing the event name during renders will not affect `useImmediateEmit(ev)` or `useEmitEffect(, ev)`, so if you want such behavior make sure to add it to the deps array using `useEmitEffect([ev], ev)`.

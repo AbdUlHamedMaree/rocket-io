@@ -104,16 +104,23 @@ export function createSocketHooks<
   ) => {
     const socket = useSocket();
 
+    const listenerRef = useRef(listener);
+
+    listenerRef.current = listener;
+
     useEffect(() => {
       if (isNil(socket)) return;
 
-      socket.on(ev as any, listener);
+      const internalListener = ((...args) =>
+        listenerRef.current(...args)) as (TListenEvents & SocketReservedEvents)[TKey];
+
+      socket.on(ev as any, internalListener);
 
       return () => {
-        socket.off(ev as any, listener);
+        socket.off(ev as any, internalListener);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [listener, ev, socket]);
+    }, [ev, socket]);
   };
 
   const useOnce = <TKey extends keyof (TListenEvents & SocketReservedEvents)>(
@@ -122,16 +129,23 @@ export function createSocketHooks<
   ) => {
     const socket = useSocket();
 
+    const listenerRef = useRef(listener);
+
+    listenerRef.current = listener;
+
     useEffect(() => {
       if (isNil(socket)) return;
 
-      socket.once(ev as any, listener);
+      const internalListener = ((...args) =>
+        listenerRef.current(...args)) as (TListenEvents & SocketReservedEvents)[TKey];
+
+      socket.once(ev as any, internalListener);
 
       return () => {
-        socket.off(ev as any, listener);
+        socket.off(ev as any, internalListener);
       };
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [listener, ev, socket]);
+    }, [ev, socket]);
   };
 
   const useEmit = () => {
